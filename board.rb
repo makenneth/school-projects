@@ -75,32 +75,33 @@ class Board
     Board.new(new_grid)
   end
 
-  # def checkmate
-  #    find_king(color)
-  #    kingly_moves(color).each do |moves|
-  #      new_array = self.dup
-  #      test_board = Board.new(new_array)
-  #      test_board.move(moves)
-  #    end
-  # end
-
-
-
-  def checkmate
-    a = []
-    kingly_moves.each do |position|
-      @grid.each_with_index do |v,x|
-        @grid.each_with_index do |v,y|
-          a << [x,y] if @grid[x][y].color == different &&  @grid[x][y].moves.include? position
-        end
-      end
-   end
-      a.uniq.length == kingly_moves.length
+  def checkmate(color)
+     find_king(color)
+     false
+   #   kingly_moves(color).each do |moves|
+   #     new_array = self.dup
+   #     test_board = Board.new(new_array)
+   #     test_board.move(moves)
+   #   end
   end
+
+
+
+  # def checkmate
+  #   a = []
+  #   kingly_moves.each do |position|
+  #     @grid.each_with_index do |v,x|
+  #       @grid.each_with_index do |v,y|
+  #         a << [x,y] if @grid[x][y].color == different &&  @grid[x][y].moves.include? position
+  #       end
+  #     end
+  #  end
+  #     a.uniq.length == kingly_moves.length
+  # end
 
   def kingly_moves(color)
     king_pos = find_king(color)
-    self[king_pos].valid_moves
+    self[king_pos].moves
   end
 
 
@@ -127,19 +128,13 @@ class Board
 
   def find_king(color)
     @grid.each_with_index do |v,i|
-      @grid.each_with_index do |v2,i2|
-        return [i,i2] if self[i][i2].is_a? King && self[i][j].color == color
+      @grid.each_with_index do |v2,j|
+        return [i, j] if self[[i, j]].is_a?(King) && self[[i, j]].color == color
       end
     end
   end
 
+  def in_bounds?(pos)
+     pos.all? { |point| point.between?(0, 7)}
+  end
 end
-
-
-
-
-
-
-b = Board.new
-d = Display.new(b)
-d.show

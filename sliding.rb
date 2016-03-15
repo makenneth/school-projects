@@ -1,11 +1,11 @@
 module Sliding
-  DIAGONAL = [[-1,1],[-1,-1],[1,1],[1,-1]]
-  LINEAR = [[1,0],[-1,0],[0,1],[0,-1]]
+  DIAGONAL = [[-1, 1], [-1, -1], [1, 1], [1, -1]]
+  LINEAR = [[1, 0], [-1, 0], [0, 1], [0, -1]]
 
-  def moves(starting_pos, move_dirs)
+  def moves(starting_pos)
     start_x, start_y = starting_pos
     valid_moves = []
-    move_dirs.each do |row, col|
+    @move_dirs.each do |row, col|
       0.upto(7) do |i|
         break if is_valid?([start_x + (row * i), start_y + (col * i)])
         valid_moves << [start_x + (row * i), start_y + (col * i)]

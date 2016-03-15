@@ -24,8 +24,10 @@ class Pawn < Piece
       @color == :white ? "\u{2659} " : "\u{265F} "
    end
 end
+
 class Bishop < Piece
   include Sliding
+  attr_reader :color
   def initialize(board, pos, color)
     @move_dirs = Sliding::DIAGONAL
     super
@@ -39,9 +41,11 @@ class Bishop < Piece
     super(@move_dirs)
   end
 end
+
 class Rook < Piece
   include Sliding
 
+  attr_reader :color
   def initialize(board, pos, color)
     @move_dirs = Sliding::LINEAR
     super
@@ -55,9 +59,11 @@ class Rook < Piece
     super(@move_dirs)
   end
 end
+
 class Queen < Piece
   include Sliding
 
+  attr_reader :color
   def initialize(board, pos, color)
     @move_dirs = Sliding::LINEAR + Sliding::DIAGONAL
     super
@@ -71,8 +77,10 @@ class Queen < Piece
     super(@move_dirs)
   end
 end
+
 class Knight < Piece
   include Stepping
+  attr_reader :color
   def initialize(board, pos, color)
     @move_dirs = Stepping::KNIGHT
     super
@@ -86,15 +94,17 @@ class Knight < Piece
     super(@move_dirs)
   end
 end
+
 class King < Piece
   include Stepping
+  attr_reader :color
   def initialize(board, pos, color)
     @move_dirs = Stepping::KING
     super
   end
 
   def to_s
-    @color == :white ? "\u{265A} " : "\u{2654} "
+    @color == :white ? "\u{2654} " : "\u{265A} "
   end
 
   def moves
