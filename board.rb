@@ -1,47 +1,11 @@
 require_relative 'pieces'
 require_relative 'display'
+class InvalidError < ArgumentError
+end
+
 class Board
   def self.default_grid
-    array = Array.new(8) {Array.new(8)}
-    self.place_pieces(array)
-  end
-
-  def self.place_pieces(array)
-    array.length.times do |i|
-      array.length.times do |j|
-         color = self.color_for_row(i)
-         array[i][j] =
-            case i
-            when 1, 6
-               Pawn.new(@board, [i, j], color)
-            when 2, 3, 4, 5
-               EmptyPiece.new([i, j])
-            else
-               case j
-               when 0, 7
-                  Rook.new(@board, [i, j], color)
-               when 1, 6
-                  Knight.new(@board, [i, j], color)
-               when 2, 5
-                  Bishop.new(@board, [i, j], color)
-               when 3
-                  King.new(@board, [i, j], color)
-               when 4
-                  Queen.new(@board, [i, j], color)
-               end
-            end
-         end
-      end
-    array
-  end
-
-  def self.color_for_row(row)
-     case row
-     when 0, 1
-        :black
-     when 6, 7
-        :white
-     end
+    Array.new(8) {Array.new(8)}
   end
 
   attr_reader :grid
@@ -50,17 +14,59 @@ class Board
     @grid = grid
   end
 
-  def move(start, end_pos)
-    raise "invalid move, positon is empty" if self[start].is_a? EmptyPiece
-    raise "invalid move, position is occupeid" if !self[end_pos].is_a? EmptyPiece
+  def place_pieces
+    @grid.length.times do |i|
+      @grid.length.times do |j|
+         color = color_for_row(i)
+         @grid[i][j] =
+            case i
+            when 1, 6
+               Pawn.new(self, [i, j], color)
+            when 2, 3, 4, 5
+               EmptyPiece.new(self, [i, j], color)
+            else
+               case j
+               when 0, 7
+                  Rook.new(self, [i, j], color)
+               when 1, 6
+                  Knight.new(self, [i, j], color)
+               when 2, 5
+                  Bishop.new(self, [i, j], color)
+               when 3
+                  King.new(self, [i, j], color)
+               when 4
+                  Queen.new(self, [i, j], color)
+               end
+            end
+         end
+      end
+  end
 
+  def color_for_row(row)
+     case row
+     when 0, 1
+        :black
+     when 6, 7
+        :white
+     end
+  end
+
+  def move(start, end_pos, color) #
+    raise InvalidError, "Invalid. Not your pieces." unless self[start].color == color
+    raise InvalidError, "Invalid. Position is empty" if self[start].is_a? EmptyPiece
+
+    valid_moves = self[start].moves #ok we also need to update the pos of piece on board
+
+    raise InvalidError, "Invalid." unless valid_moves.include?(end_pos) #also see checkmate
+    self[start].update_pos(end_pos)
+    self[end_pos].update_pos(start)
     self[start], self[end_pos] = self[end_pos], self[start]
   end
 
-  def is_valid?(pos)
-    pos.all? { |point| point.between?(0, 7) } &&
-    !self[pos].is_a?(EmptyPiece)
-  end
+  # def is_valid?(pos)
+  #   pos.all? { |point| point.between?(0, 7) } &&
+  #   !self[pos].is_a?(EmptyPiece) #I don't think we need this...
+  # end
 
   def dup
     new_grid = []

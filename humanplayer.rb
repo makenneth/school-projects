@@ -21,14 +21,14 @@ class HumanPlayer
 
      until start_pos
         @display.show
-        start_pos = @display.get_input(@color)
+        start_pos = @display.get_input
      end
 
      until end_pos
        @display.show
-       end_pos = @display.get_input(@color)
+       end_pos = @display.get_input
      end
 
-     return start_pos, end_pos
+     return [start_pos, end_pos]
   end
 end

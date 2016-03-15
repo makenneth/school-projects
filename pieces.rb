@@ -3,6 +3,7 @@ require_relative 'stepping'
 require_relative 'empty_piece'
 
 class Piece
+
   def initialize(board, pos, color)
     @board = board
     @pos = pos
@@ -17,9 +18,22 @@ class Piece
     new_board.in_check?(@opposite)
   end
 
+  def update_pos(coord)
+     @pos = coord
+  end
 end
 
 class Pawn < Piece
+   attr_reader :color
+   def initialize(board, pos, color)
+      @move_dirs = [[1, 0], [-1, 0]]
+      super
+   end
+
+   def moves
+      row, col = @pos
+      @color == :white ? [[row - 1, col]] : [[row + 1, col]]
+   end
    def to_s
       @color == :white ? "\u{2659} " : "\u{265F} "
    end
@@ -37,9 +51,6 @@ class Bishop < Piece
     @color == :white ? "\u{2657} " : "\u{265D} "
   end
 
-  def moves
-    super(@move_dirs)
-  end
 end
 
 class Rook < Piece
@@ -55,9 +66,6 @@ class Rook < Piece
     @color == :white ? "\u{2656} " : "\u{265C} "
   end
 
-  def moves
-    super(@move_dirs)
-  end
 end
 
 class Queen < Piece
@@ -73,9 +81,6 @@ class Queen < Piece
     @color == :white ? "\u{2655} " : "\u{265B} "
   end
 
-  def moves
-    super(@move_dirs)
-  end
 end
 
 class Knight < Piece
@@ -90,9 +95,6 @@ class Knight < Piece
     @color == :white ? "\u{2658} " : "\u{265E} "
   end
 
-  def moves
-    super(@move_dirs)
-  end
 end
 
 class King < Piece
@@ -107,7 +109,4 @@ class King < Piece
     @color == :white ? "\u{2654} " : "\u{265A} "
   end
 
-  def moves
-    super(@move_dirs)
-  end
 end

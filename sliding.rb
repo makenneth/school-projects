@@ -2,44 +2,22 @@ module Sliding
   DIAGONAL = [[-1, 1], [-1, -1], [1, 1], [1, -1]]
   LINEAR = [[1, 0], [-1, 0], [0, 1], [0, -1]]
 
-  def moves(starting_pos)
-    start_x, start_y = starting_pos
+  def moves
+    start_x, start_y = @pos
     valid_moves = []
     @move_dirs.each do |row, col|
-      0.upto(7) do |i|
-        break if is_valid?([start_x + (row * i), start_y + (col * i)])
-        valid_moves << [start_x + (row * i), start_y + (col * i)]
+
+      1.upto(7) do |i|
+        new_x, new_y = start_x + row * i, start_y + col * i
+        break unless @board.in_bounds?([new_x, new_y]) && @board[[new_x,new_y]].is_a?(EmptyPiece)
+        valid_moves << [new_x, new_y]
       end
     end
     valid_moves
   end
 
   def dup
-    self.class.new()
+    self.class.new(@board, @pos, @color)
   end
 
 end
-
-# class Sliding < Piece
-#   diagonal = [[-1,1],[-1,-1],[1,1],[1,-1]]
-#   linear = [[1,0],[-1,0],[0,1],[0,-1]]
-#   def moves(starting_pos, move_dirs)
-#     start_x, start_y = starting_pos
-#     valid_moves = []
-#     move_dirs.each do |row, col|
-#       0.upto(7) do |i|
-#         break if is_valid?([start_x + (row * i), start_y + (col * i)])
-#         valid_moves << [start_x + (row * i), start_y + (col * i)]
-#       end
-#     end
-#     valid_moves
-#   end
-#
-#   def moves_into_check?(pos)
-#     new_board = board.dup
-#
-#   end
-#
-#
-#
-# end

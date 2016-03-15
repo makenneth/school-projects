@@ -31,17 +31,17 @@ module Cursorable
     down: [1, 0]
   }
 
-  def get_input(color)
+  def get_input
     key = KEYMAP[read_char]
-    handle_key(key, color)
+    handle_key(key)
   end
 
-  def handle_key(key, color)
+  def handle_key(key)
     case key
     when :ctrl_c
       exit 0
     when :return, :space
-      @selected_piece = @cursor_pos #somehow we have to check the color, if not right, we have to raise an error
+      @selected_piece = @cursor_pos #somehow we have to check th, if not right, we have to raise an error
                                     #you cannot move the piece
       @cursor_pos
     when :left, :right, :up, :down
@@ -73,7 +73,7 @@ module Cursorable
     @cursor_pos = new_pos if @board.in_bounds?(new_pos)
   end
 
-  def can_move(color)
+  def can_move
      #this is the only thing that use should search for...
      #whether a person can move the piece.
      #since if it is invalid otherwise, we could have the board raise the error

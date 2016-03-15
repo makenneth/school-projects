@@ -1,8 +1,10 @@
 class EmptyPiece
 
-  def initialize(pos)
+  def initialize(_, _, _)
   end
-
+  
+  def update_pos(_)
+  end
   def to_s
     "  "
   end
