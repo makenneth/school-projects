@@ -1,5 +1,6 @@
 require_relative 'pieces'
 require_relative 'display'
+
 class InvalidError < ArgumentError
 end
 
@@ -51,22 +52,17 @@ class Board
      end
   end
 
-  def move(start, end_pos, color) #
+  def move(start, end_pos, color)
     raise InvalidError, "Invalid. Not your pieces." unless self[start].color == color
     raise InvalidError, "Invalid. Position is empty" if self[start].is_a? EmptyPiece
 
-    valid_moves = self[start].moves #ok we also need to update the pos of piece on board
+    valid_moves = self[start].moves
 
-    raise InvalidError, "Invalid." unless valid_moves.include?(end_pos) #also see checkmate
+    raise InvalidError, "Invalid." unless valid_moves.include?(end_pos)
     self[start].update_pos(end_pos)
     self[end_pos].update_pos(start)
     self[start], self[end_pos] = self[end_pos], self[start]
   end
-
-  # def is_valid?(pos)
-  #   pos.all? { |point| point.between?(0, 7) } &&
-  #   !self[pos].is_a?(EmptyPiece) #I don't think we need this...
-  # end
 
   def dup
     new_grid = []
@@ -81,35 +77,18 @@ class Board
     Board.new(new_grid)
   end
 
-  def checkmate(color)
-     find_king(color)
-     false
-   #   kingly_moves(color).each do |moves|
-   #     new_array = self.dup
-   #     test_board = Board.new(new_array)
-   #     test_board.move(moves)
-   #   end
+  def checkmate?(color)
+     return false unless in_check?(color)
+     pieces
+      .select { |piece| piece.color == color }
+      .all? { |piece| piece.valid_moves.empty? }
   end
 
 
-
-  # def checkmate
-  #   a = []
-  #   kingly_moves.each do |position|
-  #     @grid.each_with_index do |v,x|
-  #       @grid.each_with_index do |v,y|
-  #         a << [x,y] if @grid[x][y].color == different &&  @grid[x][y].moves.include? position
-  #       end
-  #     end
-  #  end
-  #     a.uniq.length == kingly_moves.length
-  # end
-
-  def kingly_moves(color)
+  def king_moves(color)
     king_pos = find_king(color)
     self[king_pos].moves
   end
-
 
   def [](pos)
     x,y = pos
@@ -121,20 +100,19 @@ class Board
     @grid[x][y] = value
   end
 
-
-  def in_check?(color)
-    king_pos = find_king(color)
-    @grid.each_with_index do |v,x|
-      @grid.each_with_index do |v,y|
-        return true if @grid[x][y].moves.include? king_pos
-      end
-    end
-    false
+  def pieces
+     @grid.flatten.select{ |cell| cell.is_a?(Piece) }
   end
 
-  def find_king(color)
-    @grid.each_with_index do |v,i|
-      @grid.each_with_index do |v2,j|
+  def in_check?(color)
+     pieces.any? do |piece|
+        piece.color != color && piece.moves.include?(find_king(color))
+     end
+  end
+
+  def find_king(color) #can actually use piece and find it and return the pos
+    @grid.each_index do |i|
+      @grid[i].each_index do |j|
         return [i, j] if self[[i, j]].is_a?(King) && self[[i, j]].color == color
       end
     end

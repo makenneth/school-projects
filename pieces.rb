@@ -11,16 +11,20 @@ class Piece
     @opposite = @color == :black ? :white : :black
   end
 
-  def moves_into_check?(start, end_pos)
+  def move_into_check?(end_pos)
     new_board = @board.dup
-
-    new_board.move(pos)
-    new_board.in_check?(@opposite)
+    new_board.move!(end_pos)
+    new_board.in_check?(@color)
   end
 
   def update_pos(coord)
      @pos = coord
   end
+
+  def valid_moves
+     moves.reject { |move| moves_into_check?(move) }
+  end
+
 end
 
 class Pawn < Piece
@@ -31,9 +35,15 @@ class Pawn < Piece
    end
 
    def moves
+      moves = []
       row, col = @pos
-      @color == :white ? [[row - 1, col]] : [[row + 1, col]]
+      moves << (@color == :white ? [row - 1, col] : [row + 1, col])
+
+      if row == 6 && row == 1
+         moves << (@color == :white ? [row - 2, col] : [row + 2, col])
+      end
    end
+
    def to_s
       @color == :white ? "\u{2659} " : "\u{265F} "
    end
@@ -42,6 +52,7 @@ end
 class Bishop < Piece
   include Sliding
   attr_reader :color
+
   def initialize(board, pos, color)
     @move_dirs = Sliding::DIAGONAL
     super
@@ -50,7 +61,6 @@ class Bishop < Piece
   def to_s
     @color == :white ? "\u{2657} " : "\u{265D} "
   end
-
 end
 
 class Rook < Piece

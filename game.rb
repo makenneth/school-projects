@@ -9,7 +9,7 @@ class Game
   end
 
   def play
-     @board.place_pieces
+    @board.place_pieces
     until over?
        play_turn
        switch_player!
@@ -23,12 +23,13 @@ class Game
      puts "#{e}. Try Again."
      retry
   end
+
   def switch_player!
     @current_player = @current_player == @player1 ? @player2 : @player1
    end
 
   def over?
-    @board.checkmate(@current_player.color)
+    @board.checkmate?(@current_player.color)
   end
 
 end

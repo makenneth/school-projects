@@ -11,6 +11,7 @@ module Stepping
     end
     valid_moves
   end
+  
   def dup
     self.class.new(@board, @pos, @color)
   end
