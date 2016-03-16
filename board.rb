@@ -1,5 +1,4 @@
-require_relative 'pieces'
-require_relative 'display'
+require_relative 'piece/piece'
 
 class InvalidError < ArgumentError
 end
@@ -13,6 +12,7 @@ class Board
 
   def initialize(grid = self.class.default_grid)
     @grid = grid
+    place_pieces
   end
 
   def place_pieces
@@ -59,9 +59,19 @@ class Board
     valid_moves = self[start].moves
 
     raise InvalidError, "Invalid." unless valid_moves.include?(end_pos)
-    self[start].update_pos(end_pos)
-    self[end_pos].update_pos(start)
+    capture(end_pos) unless self[end_pos].is_a?(EmptyPiece)
+    self[start].pos, self[end_pos].pos = end_pos, start
     self[start], self[end_pos] = self[end_pos], self[start]
+  end
+
+  def move!(start, end_pos)
+    self[start].pos, self[end_pos].pos = end_pos, start
+    self[start], self[end_pos] = self[end_pos], self[start]
+  end
+
+  def capture(pos)
+     self[pos] = []
+     self[pos] = EmptyPiece.new(@board, pos, :white)
   end
 
   def dup
@@ -105,20 +115,24 @@ class Board
   end
 
   def in_check?(color)
+     king_pos = find_king(color).pos
      pieces.any? do |piece|
-        piece.color != color && piece.moves.include?(find_king(color))
+        piece.color != color && piece.moves.include?(king_pos)
      end
   end
 
-  def find_king(color) #can actually use piece and find it and return the pos
-    @grid.each_index do |i|
-      @grid[i].each_index do |j|
-        return [i, j] if self[[i, j]].is_a?(King) && self[[i, j]].color == color
-      end
-    end
+  def find_king(color)
+     pieces.find { |piece| piece.is_a?(King) && piece.color == color }
   end
 
   def in_bounds?(pos)
      pos.all? { |point| point.between?(0, 7)}
+  end
+
+  def valid?(pos)
+     pos.all? { |point| point.between?(0, 7)} &&
+     (self[pos].is_a?(EmptyPiece) ||
+    (!self[pos].is_a?(EmptyPiece) &&
+     self[pos].color != @color))
   end
 end

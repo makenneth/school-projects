@@ -9,7 +9,6 @@ class Game
   end
 
   def play
-    @board.place_pieces
     until over?
        play_turn
        switch_player!
@@ -21,6 +20,7 @@ class Game
      @board.move(start_pos, end_pos, @current_player.color)
   rescue InvalidError => e
      puts "#{e}. Try Again."
+     sleep(2)
      retry
   end
 

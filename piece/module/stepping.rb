@@ -6,12 +6,12 @@ module Stepping
     valid_moves = []
     start_x, start_y = @pos
     @move_dirs.each do |row, col|
-      new_x, new_y = start_x + row, start_y + col
-        valid_moves << [new_x, new_y] if @board.in_bounds?([new_x, new_y]) && @board[[new_x,new_y]].is_a?(EmptyPiece)
+      new_pos = start_x + row, start_y + col
+        valid_moves << new_pos if @board.valid?(new_pos)
     end
     valid_moves
   end
-  
+
   def dup
     self.class.new(@board, @pos, @color)
   end

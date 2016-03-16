@@ -1,7 +1,9 @@
-require_relative "cursorable"
+require_relative "module/cursorable"
 require 'colorize'
+
 class Display
    include Cursorable
+
   def initialize(board)
     @board = board
     @cursor_pos = [0, 0]
