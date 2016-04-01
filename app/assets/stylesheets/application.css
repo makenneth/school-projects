@@ -45,11 +45,12 @@
 .track-details dt{
    font-size: 1.5em;
 }
-   /*.ind_album_view {
-      margin: 20px;
-      background-color: #eee;
-      padding: 40px;
-      opacity: 0.8 ;
-      border: 3px solid;
-      border-radius: 5px;
-   }*/
+
+.track-list {
+   border-left: 1px solid;
+   border-right: 1px solid;
+}
+   .ind_album_view {
+      border-left: 1px solid;
+      border-right: 1px solid;
+   }

@@ -25,8 +25,12 @@ class UsersController < ApplicationController
    def create
       @user = User.new(user_params)
       if @user.save
-         log_in_user!(@user)
-         redirect_to bands_url
+         unless @user.activated
+            render "sessions/activation_page"
+         else
+            log_in_user!(@user)
+            redirect_to bands_url
+         end
       else
          flash.now[:errors] << "Incorrect Username or password"
          render :new
