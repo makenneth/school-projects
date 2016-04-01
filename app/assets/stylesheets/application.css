@@ -1,0 +1,49 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+ li {
+    list-style-type: none;
+}
+
+
+.show-bands {
+   margin: 0 20px;
+}
+
+.album-view li {
+   font-size: 1.5em;
+   margin: 5px;
+   text-indent: 1em;
+}
+.track_title {
+   margin: 5px;
+   font-size: 1.5em;
+}
+.track_lyrics {
+   margin: 5px;
+   text-indent: 1em;
+   font-size: 1.0em;
+}
+.track-details dt{
+   font-size: 1.5em;
+}
+   /*.ind_album_view {
+      margin: 20px;
+      background-color: #eee;
+      padding: 40px;
+      opacity: 0.8 ;
+      border: 3px solid;
+      border-radius: 5px;
+   }*/

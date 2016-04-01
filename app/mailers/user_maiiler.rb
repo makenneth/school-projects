@@ -1,0 +1,2 @@
+class UserMaiiler < ApplicationMailer
+end

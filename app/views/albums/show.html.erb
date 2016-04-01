@@ -1,0 +1,32 @@
+<div class="container col-md-10 col-md-offset-1">
+   <h2>Album: <%= @album.title %></h2>
+   <div class="container">
+      <div class="row">
+         <% if is_admin? %>
+            <div class="col-md-2">
+               <%= button_to "Delete this Album", album_url(@album), method: :delete, class: "btn btn-danger" %>
+            </div>
+            <div class="col-md-2">
+               <%= link_to "Edit this album", edit_album_url(@album), class: "btn btn-warning" %>
+            </div>
+         <% end %>
+
+         <div class="col-md-2">
+            <a href="<%= band_url(@album.band)%>" class='btn btn-primary'>Back to band</a>
+         </div>
+         <div class="col-md-2">
+            <a href="<%= bands_url %>" class='btn btn-primary'>Back to main page</a>
+         </div>
+      </div>
+   </div>
+   <h3>Tracks:</h3>
+
+      <% @album.tracks.each do |track| %>
+         <div class='col-md-3'>
+            <li class='track_title'><%= link_to track.title, track_url(track) %></li>
+            <li class='track_lyrics'>Lyrics:</li>
+            <li class='track_lyrics'>  <%= "#{track.lyrics.slice(0, 30)}..." %></li>
+         </div>
+      <% end %>
+
+</div>
