@@ -17,7 +17,13 @@
     list-style-type: none;
 }
 
-
+.notification {
+   color: white;
+   background: red;
+   font-style: bold;
+   padding: 4px 0;
+   border-radius: 5px;
+}
 .show-bands {
    margin: 0 20px;
 }

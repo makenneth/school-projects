@@ -10,10 +10,15 @@ class SessionsController < ApplicationController
                                        )
 
       if @user.nil?
-         render :new
+         flash.now[:errors] = ["Invalid Username or password"]
+         new
       else
          log_in_user!(@user)
-         redirect_to bands_url
+         if @user.activated
+            redirect_to bands_url
+         else
+            render :activation_page
+         end
       end
    end
 
