@@ -1,9 +1,9 @@
 class UserMailer < ApplicationMailer
-   default from: 'from@example.com'
+   default from: 'Company Name support@company.com'
 
    def welcome_email(user)
       @user = user
-      @url = "/users/activate?activation_token=#{@user.activation_token}"
+      @url = "http://localhost:3000/users/activate?activation_token=#{@user.activation_token}"
       mail(to: user.email, subject: 'Welcome to my site...')
    end
 

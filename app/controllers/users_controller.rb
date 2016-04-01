@@ -26,7 +26,7 @@ class UsersController < ApplicationController
       @user = User.new(user_params)
       if @user.save
          log_in_user!(@user)
-         redirect_to bands_urls
+         redirect_to bands_url
       else
          flash.now[:errors] << "Incorrect Username or password"
          render :new
