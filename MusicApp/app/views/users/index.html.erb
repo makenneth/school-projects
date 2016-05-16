@@ -1,0 +1,20 @@
+<div class="col-md-8 col-md-offset-2">
+   <table class='table'>
+      <tr>
+         <th>Id</th>
+         <th>E-mail</th>
+         <th>Created At</th>
+         <th>Activated</th>
+         <th>Admin</th>
+      </tr>
+   <% @users.each do |user| %>
+      <tr>
+         <td><%= user.id %></td>
+         <td><%= user.email %></td>
+         <td><%= user.created_at %></td>
+         <td><%= user.activated %></td>
+         <td><%= user.admin %></td>
+      </tr>
+   <% end %>
+   </table>
+</div>

@@ -1,0 +1,6 @@
+<div class="col-md-8 col-md-offset-2">
+   <p>
+      Your account have not been activated yet, please click
+      <%= link_to "here", "/users/activate?activation_token=#{@user.activation_token}" %> to activate your account. 
+   </p>
+</div>

@@ -1,0 +1,8 @@
+<blockquote>
+   <p><%= note.comment %></p>
+   <footer><%= note.user.email%></footers>
+      <% if current_user == note.user || is_admin? %>
+         <span><%= link_to "delete", note_url(note), method: :delete, class: 'btn btn-danger'%></span>
+         <span><%= link_to "update", edit_note_url(note), class: 'btn btn-warning'%></span>
+      <% end %>
+</blockquote>

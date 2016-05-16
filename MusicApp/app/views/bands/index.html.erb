@@ -1,0 +1,16 @@
+<div class='container col-md-8 col-md-offset-2 band-body'>
+   <div class='row'>
+      <h1>Bands</h1>
+   </div>
+   <% @bands.each do |band| %>
+      <div class='col-md-3 show-bands'>
+         <h3><%= link_to band.name, band_url(band) %></h3>
+         <ul>
+            <% band.albums.each do |album| %>
+               <li> <%= link_to album.title, album_url(album)  %></li>
+            <% end %>
+         </ul>
+      </div>
+   <% end %>
+
+</div>

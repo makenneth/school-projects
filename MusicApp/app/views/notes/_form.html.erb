@@ -1,0 +1,30 @@
+<% action_url = note.persisted? ? note_url(note) : track_notes_url(track)%>
+<% action_method = note.persisted? ? "PATCH" : "POST "%>
+<% if note.errors %>
+   <% note.errors.full_messages.each do |message| %>
+      <div class="bg-danger">
+         <p>message</p>
+      </div>
+   <% end %>
+<% end %>
+<form action="<%= action_url %>" method="post">
+   <input type="hidden" name="_method" value="<%= action_method %>">
+   <input type="hidden" name="authenticity_token"
+               value="<%= form_authenticity_token %>">
+   <fieldset disabled>
+      <div class="form-group">
+         <label for="commenter">Commenting as:</label>
+         <input class='disabled form-control' type='text'
+                  id='commenter'
+                  value="<%= current_user.email %>">
+      </div>
+   </fieldset>
+   <div class="form-group">
+      <label for="note_comment">Comment</label>
+      <textarea class='form-control'
+         name='note[comment]'
+         id='note_comment'
+         rows="5"><%= note.comment %></textarea>
+   </div>
+   <input type="submit" value="Submit" class='btn btn-success'>
+</form>

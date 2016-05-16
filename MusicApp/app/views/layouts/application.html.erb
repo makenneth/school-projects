@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<<<<<<< HEAD
+  <title>Pokedex</title>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <script>
+    window.pokemonTypes = [];
+    <% Pokemon::TYPES.each do |type| %>
+      pokemonTypes.push("<%= type.html_safe %>");
+    <% end %>
+  </script>
+
+  <%= yield %>
+=======
+  <title>Musicapp</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+   <nav class="navbar navbar-default col-md-8 col-md-offset-2">
+         <ul class="nav navbar-nav">
+            <li><%= link_to "Home", bands_url %></li>
+            <% if current_user %>
+               <li><%= link_to "New band", new_band_url %></li>
+               <% if is_admin? %>
+                  <li><%= link_to "List of Users", users_url %></li>
+               <% end %>
+            <% else %>
+               <li><%= link_to "Signup", new_user_url %></li>
+               <li><%= link_to "Log In", new_session_url %></li>
+            <% end %>
+            <% if @album && current_page?(album_url(@album)) %>
+               <li><%= link_to "Edit the album", edit_album_url(@album) %></li>
+            <% end %>
+         </ul>
+         <% if current_user %>
+            <ul class="nav navbar-nav" style='float: right'</ul>
+               <li class="navbar-text pull-right">Signed in as <%= current_user.email %></li>
+               <li><%= link_to "Log out", session_url, method: :delete, class: 'float-right'%></li>
+            </ul>
+         <% end %>
+   </nav>
+   <% if flash[:errors] %>
+   <% flash[:errors].each do |error| %>
+   <div class="bg-danger notification">
+      <p><%= error %></p>
+   </div>
+   <% end %>
+   <% end %>
+<%= yield %>
+>>>>>>> old_a/master
+
+</body>
+</html>

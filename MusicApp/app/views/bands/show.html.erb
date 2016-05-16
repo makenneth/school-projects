@@ -1,0 +1,31 @@
+<div class="container col-md-8 album-view col-md-offset-2">
+   <div class='row'>
+      <div class='col-md-2'>
+         <%= link_to "Add a new album", new_band_album_url(@band.id), class: 'btn btn-success' %>
+      </div>
+      <% if is_admin? %>
+         <div class='col-md-2'>
+            <%= button_to "Delete this band", band_url(@band),
+            method: :delete, class: "btn btn-danger" %>
+         </div>
+         <div class='col-md-2'>
+            <%= link_to "Edit this band", edit_band_url(@band),
+            class: "btn btn-warning"%>
+         </div>
+      <% end %>
+   </div>
+   <h1><%= @band.name %></h1>
+   <% @band.albums.each do |album| %>
+      <div class="col-md-3 col-md-offset-1 ind_album_view">
+         <h3>Album name:</h3>
+         <h3><%= link_to album.title, album_url(album) %></h3>
+         <h4>Tracks</h4>
+         <% album.tracks.slice(0, 8).each do |track| %>
+            <li><%= link_to track.title, track_url(track) %></li>
+         <% end %>
+      </div>
+   <% end %>
+</div>
+
+
+</div>

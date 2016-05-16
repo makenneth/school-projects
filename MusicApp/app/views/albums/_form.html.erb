@@ -1,0 +1,41 @@
+<% action_url = album.persisted? ? album_url(album) : albums_url %>
+<% action_type = album.persisted? ? "PATCH" : "POST" %>
+<% if album.errors %>
+   <% album.errors.full_messages.each do |message| %>
+      <div class="bg-danger">
+         <p>message</p>
+      </div>
+   <% end %>
+<% end %>
+<form class="" action=" <%= action_url %> " method="post">
+   <input type="hidden" name="_method" value=" <%= action_type %> ">
+   <input type="hidden" name="authenticity_token"
+               value="<%= form_authenticity_token %>">
+
+  <div class="form-group">
+     <label for="title">title</label>
+     <input type="text" name="album[title]" value="<%= album.title %>"
+            class="form-control" id="title">
+  </div>
+  <div class="form-group">
+     <label for="live_album">Live</label>
+     <input type="radio" name="album[album_type]" value="<%= album.title %>"
+            class="form-control" id="live_album" checked="<%= album.album_type = "live"%>">
+
+      <label for="studio_album">Studio</label>
+      <input type="radio" name="album[album_type]" value="<%= album.title %>"
+             class="form-control" id="studio_album" checked="<%= album.album_type = "studio"%>">
+  </div>
+  <div class="form-group">
+     <label for="band_name">album_type</label>
+     <select name="album[band_name]" id="band_name"
+         class="form-control">
+         <% bands.each do |band| %>
+            <option value='<%= band.name %>' selected="<%= album.band == band.name %>"><%= band.name %></option>
+         <% end %>
+      </select>
+  </div>
+
+  <input type="submit" class="btn btn-success" value="Submit">
+  <%= link_to "Back to home page", bands_url, class: 'btn btn-primary' %>
+</form>
